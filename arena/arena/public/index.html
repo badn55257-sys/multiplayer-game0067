@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Arena FPS</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#0b0f14;color:#e8eef5;font:14px system-ui,sans-serif}
+canvas{display:block}.ov{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,12,18,.88);z-index:5}
+.card{background:#141b24;border:1px solid #263243;border-radius:12px;padding:24px;min-width:340px;max-width:520px}
+h1{margin:0 0 14px;letter-spacing:2px}input,select,button{font:inherit;padding:10px;margin:4px 0;border-radius:8px;border:1px solid #2b394b;background:#0e141b;color:inherit;width:100%}
+button{background:#d9472b;border:0;cursor:pointer;font-weight:600}button.alt{background:#2b394b}button:hover{filter:brightness(1.15)}
+.row{display:flex;gap:8px}.hidden{display:none!important}table{width:100%;border-collapse:collapse}td,th{padding:4px 6px;text-align:left}
+#hud{position:fixed;inset:0;pointer-events:none;z-index:3}#cross{position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px;border:2px solid #fff;border-radius:50%;mix-blend-mode:difference}
+#hp{position:absolute;left:20px;bottom:20px;font-size:28px;font-weight:700}#ammo{position:absolute;right:20px;bottom:20px;font-size:28px;font-weight:700;text-align:right}
+#top{position:absolute;top:10px;width:100%;text-align:center;font-size:18px}#feed{position:absolute;right:14px;top:40px;text-align:right}
+#stat{position:absolute;left:14px;top:10px;font-size:12px;opacity:.8}#flash{position:absolute;inset:0;background:red;opacity:0;transition:opacity .3s}#hm{position:absolute;left:50%;top:50%;margin:-12px;font-size:24px;opacity:0;color:#fff}
+#toast{position:fixed;left:50%;transform:translateX(-50%);top:60px;z-index:9;background:#000a;padding:6px 14px;border-radius:8px}
+.red{color:#ff6b5b}.blue{color:#5ba8ff}small{opacity:.7}
+</style></head><body>
+<div id="menu" class="ov"><div class="card"><h1>ARENA FPS</h1>
+<input id="name" placeholder="Username" maxlength="16"><button id="quick">Quick Match</button><button id="create" class="alt">Create Private Room</button>
+<div class="row"><input id="code" placeholder="ROOM CODE" maxlength="5"><button id="join" class="alt" style="width:120px">Join</button></div>
+<small>Sensitivity <input id="sens" type="range" min="1" max="10" value="4"> Volume <input id="vol" type="range" min="0" max="10" value="5"></small>
+<button id="setbtn" class="alt">Settings</button><p id="err" class="red"></p></div></div>
+<div id="lobby" class="ov hidden"><div class="card"><h1>LOBBY <span id="rc"></span></h1><table id="plist"></table>
+<div id="hostctl"><select id="map"><option value="0">Urban City</option><option value="1">Desert Military Base</option><option value="2">Industrial Warehouse</option></select><select id="mode"><option value="tdm">Team Deathmatch</option><option value="ffa">Free For All</option></select>
+<div class="row"><input id="limit" type="number" value="30" title="Score limit"><input id="dur" type="number" value="300" title="Seconds"></div></div>
+<div class="row"><button id="rd" class="alt">Ready</button><button id="tm" class="alt">Switch Team</button></div><button id="go">Start Game</button>
+<small>Share the room code. Controls: WASD, Shift, Space, Ctrl, LMB/RMB, R, 1-6, Esc</small></div></div>
+<div id="pause" class="ov hidden"><div class="card">Click anywhere to play<br><button id="setbtn2" class="alt">Settings</button></div></div>
+<div id="death" class="ov hidden" style="background:#300a"><h1>YOU DIED</h1></div>
+<div id="res" class="ov hidden"><div class="card"><h1 id="win"></h1><table id="rank"></table><button id="rem">Rematch (host)</button></div></div>
+<div id="set" class="ov hidden" style="z-index:20"><div class="card"><h1>SETTINGS</h1>
+FOV <input id="s_fov" type="range" min="60" max="110"> Crosshair colour <input id="s_xh" type="color"> size <input id="s_xs" type="range" min="2" max="20">
+Quality <select id="s_q"><option value="1">High</option><option value="0.75">Medium</option><option value="0.5">Low</option></select>
+<label><input id="s_sh" type="checkbox" style="width:auto"> Shadows</label><button id="s_fs" class="alt">Fullscreen</button>
+<p><small>Click a key binding, then press the new key</small></p><div id="binds"></div><button id="s_x">Close</button></div></div>
+<div id="hud" class="hidden"><div id="flash"></div><div id="cross"></div><div id="hm">✕</div><canvas id="mm" width="150" height="150" style="position:absolute;left:14px;bottom:70px;border:1px solid #fff4;background:#0008"></canvas><div id="stat"></div><div id="top"></div><div id="feed"></div><div id="hp"></div><div id="ammo"></div></div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script src="/socket.io/socket.io.js"></script><script type="module" src="/game.js"></script></body></html>
